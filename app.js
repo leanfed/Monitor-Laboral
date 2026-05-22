@@ -29,6 +29,8 @@ const areas = {
   },
 };
 
+const ITEMS_PER_PAGE = 9;
+
 const homeSection = document.getElementById("homeSection");
 const resultsSection = document.getElementById("resultsSection");
 const sectionTitle = document.getElementById("sectionTitle");
@@ -36,6 +38,7 @@ const sectionDescription = document.getElementById("sectionDescription");
 const cardsContainer = document.getElementById("cardsContainer");
 const filtersContainer = document.getElementById("filtersContainer");
 const statusSummary = document.getElementById("statusSummary");
+const paginationContainer = document.getElementById("paginationContainer");
 const lastUpdate = document.getElementById("lastUpdate");
 
 const backButton = document.getElementById("backButton");
@@ -43,8 +46,10 @@ const homeLink = document.getElementById("homeLink");
 const themeToggle = document.getElementById("themeToggle");
 
 let currentItems = [];
+let currentFilteredItems = [];
 let currentFilter = "Todos";
 let currentAreaKey = "";
+let currentPage = 1;
 
 document.addEventListener("DOMContentLoaded", () => {
   setupTheme();
@@ -79,6 +84,7 @@ async function loadArea(areaKey) {
 
   currentAreaKey = areaKey;
   currentFilter = "Todos";
+  currentPage = 1;
 
   sectionTitle.textContent = area.title;
   sectionDescription.textContent = area.description;
@@ -94,6 +100,8 @@ async function loadArea(areaKey) {
     </div>
   `;
 
+  paginationContainer.innerHTML = "";
+
   try {
     const response = await fetch(area.file);
 
@@ -104,10 +112,11 @@ async function loadArea(areaKey) {
     const data = await response.json();
 
     currentItems = Array.isArray(data) ? data : [];
+    currentFilteredItems = currentItems;
 
     renderSummary(currentItems);
     renderFilters(currentItems);
-    renderCards(currentItems);
+    renderCards(currentFilteredItems);
   } catch (error) {
     cardsContainer.innerHTML = `
       <div class="col-12">
@@ -117,6 +126,7 @@ async function loadArea(areaKey) {
       </div>
     `;
 
+    paginationContainer.innerHTML = "";
     console.error(error);
   }
 }
@@ -126,12 +136,20 @@ function showHome() {
   homeSection.classList.remove("d-none");
 
   currentItems = [];
+  currentFilteredItems = [];
   currentFilter = "Todos";
   currentAreaKey = "";
+  currentPage = 1;
 
   cardsContainer.innerHTML = "";
   filtersContainer.innerHTML = "";
   statusSummary.innerHTML = "";
+  paginationContainer.innerHTML = "";
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
 }
 
 function renderSummary(items) {
@@ -178,14 +196,15 @@ function renderFilters(items) {
   filterButtons.forEach((button) => {
     button.addEventListener("click", () => {
       currentFilter = button.dataset.filter;
+      currentPage = 1;
 
-      const filteredItems =
+      currentFilteredItems =
         currentFilter === "Todos"
           ? currentItems
           : currentItems.filter((item) => item.categoria === currentFilter);
 
       renderFilters(currentItems);
-      renderCards(filteredItems);
+      renderCards(currentFilteredItems);
     });
   });
 }
@@ -201,10 +220,22 @@ function renderCards(items) {
         </div>
       </div>
     `;
+
+    paginationContainer.innerHTML = "";
     return;
   }
 
-  cardsContainer.innerHTML = items
+  const totalPages = Math.ceil(items.length / ITEMS_PER_PAGE);
+
+  if (currentPage > totalPages) {
+    currentPage = totalPages;
+  }
+
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
+  const paginatedItems = items.slice(startIndex, endIndex);
+
+  cardsContainer.innerHTML = paginatedItems
     .map((item) => {
       const badgeClass = getBadgeClass(item.estado);
       const estadoTexto = getEstadoTexto(item.estado);
@@ -249,6 +280,123 @@ function renderCards(items) {
       `;
     })
     .join("");
+
+  renderPagination(items.length);
+}
+
+function renderPagination(totalItems) {
+  const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
+
+  if (totalPages <= 1) {
+    paginationContainer.innerHTML = "";
+    return;
+  }
+
+  const pages = getVisiblePages(totalPages);
+
+  paginationContainer.innerHTML = `
+    <div class="pagination-card">
+      <button 
+        class="pagination-btn" 
+        data-page-action="prev"
+        ${currentPage === 1 ? "disabled" : ""}
+      >
+        ← Anterior
+      </button>
+
+      <div class="pagination-pages">
+        ${pages
+          .map((page) => {
+            if (page === "...") {
+              return `<span class="pagination-dots">...</span>`;
+            }
+
+            const activeClass = page === currentPage ? "active" : "";
+
+            return `
+              <button class="pagination-number ${activeClass}" data-page="${page}">
+                ${page}
+              </button>
+            `;
+          })
+          .join("")}
+      </div>
+
+      <button 
+        class="pagination-btn" 
+        data-page-action="next"
+        ${currentPage === totalPages ? "disabled" : ""}
+      >
+        Siguiente →
+      </button>
+    </div>
+
+    <p class="pagination-info">
+      Página ${currentPage} de ${totalPages} · ${totalItems} publicaciones
+    </p>
+  `;
+
+  const prevButton = paginationContainer.querySelector('[data-page-action="prev"]');
+  const nextButton = paginationContainer.querySelector('[data-page-action="next"]');
+  const pageButtons = paginationContainer.querySelectorAll("[data-page]");
+
+  prevButton.addEventListener("click", () => {
+    if (currentPage > 1) {
+      currentPage--;
+      renderCards(currentFilteredItems);
+      scrollToResultsTop();
+    }
+  });
+
+  nextButton.addEventListener("click", () => {
+    if (currentPage < totalPages) {
+      currentPage++;
+      renderCards(currentFilteredItems);
+      scrollToResultsTop();
+    }
+  });
+
+  pageButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      currentPage = Number(button.dataset.page);
+      renderCards(currentFilteredItems);
+      scrollToResultsTop();
+    });
+  });
+}
+
+function getVisiblePages(totalPages) {
+  if (totalPages <= 5) {
+    return Array.from({ length: totalPages }, (_, index) => index + 1);
+  }
+
+  const pages = [1];
+
+  if (currentPage > 3) {
+    pages.push("...");
+  }
+
+  const start = Math.max(2, currentPage - 1);
+  const end = Math.min(totalPages - 1, currentPage + 1);
+
+  for (let page = start; page <= end; page++) {
+    pages.push(page);
+  }
+
+  if (currentPage < totalPages - 2) {
+    pages.push("...");
+  }
+
+  pages.push(totalPages);
+
+  return pages;
+}
+
+function scrollToResultsTop() {
+  resultsSection.scrollIntoView({
+    behavior: "smooth",
+    block: "start",
+  });
 }
 
 function getBadgeClass(estado) {
