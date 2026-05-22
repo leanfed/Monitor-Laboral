@@ -1,0 +1,332 @@
+:root {
+  --bg-main: #f4f7fb;
+  --bg-card: #ffffff;
+  --text-main: #162033;
+  --text-soft: #667085;
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --accent: #f59e0b;
+  --success: #16a34a;
+  --danger: #dc2626;
+  --border-soft: rgba(15, 23, 42, 0.08);
+  --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.08);
+}
+
+[data-bs-theme="dark"] {
+  --bg-main: #0f172a;
+  --bg-card: #111827;
+  --text-main: #f8fafc;
+  --text-soft: #cbd5e1;
+  --border-soft: rgba(255, 255, 255, 0.09);
+  --shadow-soft: 0 18px 45px rgba(0, 0, 0, 0.35);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(37, 99, 235, 0.14), transparent 30%),
+    var(--bg-main);
+  color: var(--text-main);
+}
+
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: linear-gradient(135deg, #1d4ed8, #111827);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.18);
+}
+
+.navbar-brand {
+  color: #ffffff !important;
+  letter-spacing: -0.03em;
+}
+
+/* HOME / HERO */
+
+.hero-card {
+  max-width: 920px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1.6rem;
+  border-radius: 1.5rem;
+  background:
+    linear-gradient(135deg, rgba(37, 99, 235, 0.95), rgba(15, 23, 42, 0.95)),
+    var(--bg-card);
+  color: #ffffff;
+  box-shadow: var(--shadow-soft);
+  text-align: center;
+}
+
+.hero-card h1 {
+  font-size: clamp(1.8rem, 8vw, 3.5rem);
+  letter-spacing: -0.06em;
+  line-height: 1;
+}
+
+.hero-card p {
+  max-width: 680px;
+  margin-left: auto;
+  margin-right: auto;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+/* CARDS PRINCIPALES */
+
+.area-card {
+  min-height: 245px;
+  padding: 1.4rem;
+  text-align: center;
+  border: 1px solid var(--border-soft);
+  border-radius: 1.5rem;
+  background: var(--bg-card);
+  color: var(--text-main);
+  box-shadow: var(--shadow-soft);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.area-card:hover,
+.area-card:focus {
+  transform: translateY(-4px);
+  border-color: rgba(37, 99, 235, 0.45);
+  box-shadow: 0 22px 55px rgba(37, 99, 235, 0.16);
+}
+
+.area-icon {
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 1rem auto;
+  border-radius: 1.2rem;
+  background: rgba(37, 99, 235, 0.1);
+  font-size: 1.9rem;
+}
+
+.area-card h2 {
+  margin-bottom: 0.5rem;
+  font-size: 1.55rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+.area-card p {
+  min-height: 78px;
+  margin-bottom: 1rem;
+  color: var(--text-soft);
+}
+
+.area-card span {
+  display: inline-block;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+/* SECCIONES INTERNAS */
+
+.section-heading {
+  padding: 1.2rem;
+  border-radius: 1.4rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  box-shadow: var(--shadow-soft);
+  text-align: center;
+}
+
+.section-heading p {
+  color: var(--text-soft);
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+
+.summary-card {
+  padding: 1rem;
+  border-radius: 1.2rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  box-shadow: var(--shadow-soft);
+  text-align: center;
+}
+
+.summary-card strong {
+  display: block;
+  font-size: 1.45rem;
+  line-height: 1;
+}
+
+.summary-card span {
+  color: var(--text-soft);
+  font-size: 0.9rem;
+}
+
+.filters {
+  display: flex;
+  justify-content: center;
+  gap: 0.55rem;
+  overflow-x: auto;
+  padding-bottom: 0.25rem;
+}
+
+.filter-btn {
+  white-space: nowrap;
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+/* CARDS DE OFERTAS */
+
+.job-link {
+  display: block;
+  height: 100%;
+  color: inherit;
+  text-decoration: none;
+}
+
+.job-card {
+  height: 100%;
+  border: 1px solid var(--border-soft);
+  border-radius: 1.35rem;
+  background: var(--bg-card);
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.job-link:hover .job-card,
+.job-link:focus .job-card {
+  transform: translateY(-4px);
+  border-color: rgba(37, 99, 235, 0.45);
+  box-shadow: 0 22px 55px rgba(37, 99, 235, 0.16);
+}
+
+.job-card-body {
+  padding: 1.2rem;
+  text-align: center;
+}
+
+.job-card h3 {
+  margin: 0.75rem 0;
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.job-meta {
+  display: grid;
+  gap: 0.25rem;
+  color: var(--text-soft);
+  font-size: 0.92rem;
+}
+
+.job-footer {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  align-items: center;
+  margin-top: 1rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--border-soft);
+  color: var(--primary);
+  font-weight: 800;
+}
+
+.badge-soft {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.42rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.badge-new {
+  background: rgba(245, 158, 11, 0.15);
+  color: #b45309;
+}
+
+.badge-active {
+  background: rgba(22, 163, 74, 0.15);
+  color: #15803d;
+}
+
+.badge-expired {
+  background: rgba(220, 38, 38, 0.13);
+  color: #b91c1c;
+}
+
+[data-bs-theme="dark"] .badge-new {
+  color: #fbbf24;
+}
+
+[data-bs-theme="dark"] .badge-active {
+  color: #4ade80;
+}
+
+[data-bs-theme="dark"] .badge-expired {
+  color: #f87171;
+}
+
+/* FOOTER */
+
+.footer-text {
+  color: var(--text-soft);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.empty-state {
+  padding: 2rem;
+  border-radius: 1.4rem;
+  text-align: center;
+  background: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  color: var(--text-soft);
+}
+
+/* MOBILE */
+
+@media (max-width: 575px) {
+  main.container,
+  footer.container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .hero-card {
+    padding: 1.25rem;
+  }
+
+  .area-card {
+    min-height: 215px;
+  }
+
+  .area-card p {
+    min-height: auto;
+  }
+
+  .summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .job-card h3 {
+    font-size: 1.08rem;
+  }
+}

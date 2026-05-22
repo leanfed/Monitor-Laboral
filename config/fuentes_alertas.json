@@ -1,0 +1,53 @@
+{
+  "salud_privada": [
+    {
+      "nombre": "Técnico/a en Esterilización - Argentina",
+      "categoria": "Esterilización privada",
+      "rss": "https://www.google.com/alerts/feeds/00111659055919895012/5687933752011349877"
+    },
+    {
+      "nombre": "Central de Esterilización - Argentina",
+      "categoria": "Central de esterilización",
+      "rss": "https://www.google.com/alerts/feeds/00111659055919895012/16113597751703787338"
+    },
+    {
+      "nombre": "Esterilización clínica sanatorio hospital privado - Argentina",
+      "categoria": "Esterilización privada",
+      "rss": "https://www.google.com/alerts/feeds/00111659055919895012/692553042933569362"
+    }
+  ],
+  "quimica": [
+    {
+      "nombre": "Técnico químico - Argentina",
+      "categoria": "Técnico químico",
+      "rss": "https://www.google.com/alerts/feeds/00111659055919895012/3928242019435348782"
+    },
+    {
+      "nombre": "Operario producción - Argentina",
+      "categoria": "Operario",
+      "rss": "https://www.google.com/alerts/feeds/00111659055919895012/16179095723061745850"
+    },
+    {
+      "nombre": "Control de calidad - Argentina",
+      "categoria": "Control de calidad",
+      "rss": "https://www.google.com/alerts/feeds/00111659055919895012/10097128895228228356"
+    }
+  ],
+  "it": [
+    {
+      "nombre": "QA Manual Trainee Junior - Argentina",
+      "categoria": "QA Manual",
+      "rss": "https://www.google.com/alerts/feeds/00111659055919895012/6198239020992203929"
+    },
+    {
+      "nombre": "QA Automation Trainee Junior - Argentina",
+      "categoria": "QA Automation",
+      "rss": "https://www.google.com/alerts/feeds/00111659055919895012/2283056132818032375"
+    },
+    {
+      "nombre": "Desarrollador Trainee Junior - Argentina",
+      "categoria": "Desarrollo",
+      "rss": "https://www.google.com/alerts/feeds/00111659055919895012/10147029824022085579"
+    }
+  ]
+}
